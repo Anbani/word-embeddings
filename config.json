@@ -6,8 +6,8 @@
                 38503,
                 64
             ],
-            "tensorPath": "https://media.githubusercontent.com/media/Anbani/words/master/tsv/kawiki_25MB_tensor.tsv",
-            "metadataPath": "https://media.githubusercontent.com/media/Anbani/words/master/tsv/kawiki_25MB_metadata.tsv"
+            "tensorPath": "https://raw.githubusercontent.com/Anbani/words/master/tsv/kawiki_25MB_tensor.tsv",
+            "metadataPath": "https://raw.githubusercontent.com/Anbani/words/master/tsv/kawiki_25MB_metadata.tsv"
         },
         {
             "tensorName": "ვიკიპედია 250MB",
@@ -16,7 +16,7 @@
                 200
             ],
             "tensorPath": "https://dl.dropbox.com/s/unh20yzftoc10oy/kawiki_250MB_tensor.tsv",
-            "metadataPath": "https://media.githubusercontent.com/media/Anbani/words/master/tsv/kawiki_250MB_metadata.tsv"
+            "metadataPath": "https://raw.githubusercontent.com/Anbani/words/master/tsv/kawiki_250MB_metadata.tsv"
         },
         {
             "tensorName": "ვიკიპედია 1250MB",
@@ -25,7 +25,7 @@
                 300
             ],
             "tensorPath": "https://dl.dropbox.com/s/gyktcciagjvob57/kawiki_1250MB_tensor.tsv",
-            "metadataPath": "https://media.githubusercontent.com/media/Anbani/words/master/tsv/kawiki_1250MB_metadata.tsv"
+            "metadataPath": "https://raw.githubusercontent.com/Anbani/words/master/tsv/kawiki_1250MB_metadata.tsv"
         }
     ]
 }
