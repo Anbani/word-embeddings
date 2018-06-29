@@ -15,7 +15,7 @@
                 112549,
                 200
             ],
-            "tensorPath": "https://media.githubusercontent.com/media/Anbani/words/master/tsv/kawiki_250MB_tensor.tsv",
+            "tensorPath": "https://dl.dropbox.com/s/unh20yzftoc10oy/kawiki_250MB_tensor.tsv",
             "metadataPath": "https://media.githubusercontent.com/media/Anbani/words/master/tsv/kawiki_250MB_metadata.tsv"
         },
         {
@@ -24,7 +24,7 @@
                 356756,
                 300
             ],
-            "tensorPath": "https://media.githubusercontent.com/media/Anbani/words/master/tsv/kawiki_1250MB_tensor.tsv",
+            "tensorPath": "https://dl.dropbox.com/s/gyktcciagjvob57/kawiki_1250MB_tensor.tsv",
             "metadataPath": "https://media.githubusercontent.com/media/Anbani/words/master/tsv/kawiki_1250MB_metadata.tsv"
         }
     ]
