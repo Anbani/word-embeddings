@@ -1,6 +1,16 @@
 {
     "embeddings": [
         {
+            "tensorName": "ვიკიპედია 35MB",
+            "tensorShape": [
+                23487,
+                150
+            ],
+            "word2vecPath": "https://raw.githubusercontent.com/Anbani/words/master/tsv/kawiki_35MB.txt",
+            "tensorPath": "https://raw.githubusercontent.com/Anbani/words/master/tsv/kawiki_35MB_tensor.tsv",
+            "metadataPath": "https://raw.githubusercontent.com/Anbani/words/master/tsv/kawiki_35MB_metadata.tsv"
+        },
+        {
             "tensorName": "ვიკიპედია 25MB",
             "tensorShape": [
                 38503,
