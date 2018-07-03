@@ -37,7 +37,7 @@
 /* eslint-disable indent, no-unused-vars, no-multiple-empty-lines, max-nested-callbacks, space-before-function-paren, quotes, comma-spacing */
 'use strict';
 
-var precacheConfig = [["index.html","bc22e3a20423db29e645ff67c066aaad"],["index.js","ed47fd6db47a2b244ac4d2630f002a2e"]];
+var precacheConfig = [["index.html","bc22e3a20423db29e645ff67c066aaad"],["index.js","968f2467a763a9d4f4dc12bb463aaef1"]];
 var cacheName = 'sw-precache-v3--' + (self.registration ? self.registration.scope : '');
 
 
