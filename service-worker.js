@@ -37,7 +37,7 @@
 /* eslint-disable indent, no-unused-vars, no-multiple-empty-lines, max-nested-callbacks, space-before-function-paren, quotes, comma-spacing */
 'use strict';
 
-var precacheConfig = [["index.html","bdc3f7296bb9dd9429b70c835ff7b9a1"],["index.js","172ffa47ee6856c7b7c6a9d9f777d948"]];
+var precacheConfig = [["words/index.html","72ab854cb54b3dc197f6a7a0ad2358fb"],["words/index.js","7333c6399f3675bcde7be74dc470ce94"]];
 var cacheName = 'sw-precache-v3--' + (self.registration ? self.registration.scope : '');
 
 
@@ -229,7 +229,7 @@ self.addEventListener('fetch', function (event) {
 
     // If shouldRespond is still false, check to see if this is a navigation
     // request, and if so, whether the URL matches navigateFallbackWhitelist.
-    var navigateFallback = 'index.html';
+    var navigateFallback = 'words\index.html';
     if (!shouldRespond &&
         navigateFallback &&
         (event.request.mode === 'navigate') &&
