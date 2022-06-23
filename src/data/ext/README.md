@@ -1,0 +1,2 @@
+- https://github.com/rudolferemyan/georgian_nlp/blob/master/stop_words/GEORGIAN_STOP_WORDS_LIST.txt
+- https://github.com/gamag/ka_GE.spell/blob/master/dictionaries/ka_GE.aff
