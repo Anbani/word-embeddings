@@ -6,8 +6,6 @@
 
 ჻ <https://anbani.ge/embeddings>
 
-https://gach.ml/assets/projects/wordnet-vid.mp4
-
 ![wordnet-demo](https://gach.ml/assets/projects/wordnet-vid.gif)
 
 ## References
