@@ -6,6 +6,10 @@
 
 ჻ <https://anbani.ge/embeddings>
 
+https://gach.ml/assets/projects/wordnet-vid.mp4
+
+![wordnet-demo](https://gach.ml/assets/projects/wordnet-vid.gif)
+
 ## References
 
 - [Efficient estimation of word representations in vector space](https://arxiv.org/abs/1301.3781)
