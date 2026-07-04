@@ -51,7 +51,7 @@ def main():
     d_model = int(lay["d_model"])
     count = points.shape[0]
 
-    vocab = sorted(lib.read_jsonl(lib.path("work", corpus, "vocab.jsonl")), key=lambda r: r["i"])
+    vocab = sorted(lib.read_jsonl(lib.vocab_file(corpus)), key=lambda r: r["i"])
     if len(vocab) != count:
         raise SystemExit(f"vocab/layout count mismatch: {len(vocab)} vs {count}")
     vmeta = json.load(open(lib.path("work", corpus, "vocab_meta.json"), encoding="utf-8"))

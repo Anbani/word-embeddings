@@ -9,6 +9,7 @@ SRC = os.path.join(os.path.dirname(HERE), "src")
 sys.path.insert(0, SRC)
 
 import lib  # noqa: E402
+import georgian_stem as gs  # noqa: E402
 from extract_corpus import split_sentences  # noqa: E402
 from vendor import affix, normalize  # noqa: E402
 
@@ -78,6 +79,19 @@ class Affix(unittest.TestCase):
         aff = affix.parse_aff(aff_path)
         valid, forbidden = affix.expand_entry(aff, "სახლი", frozenset())
         self.assertIn("სახლი", valid)          # bare stem present (no NEEDAFFIX)
+
+
+class Stemmer(unittest.TestCase):
+    def test_inflections_share_root(self):
+        # nominative, ergative, genitive, plural-locative of "mother" -> one root
+        roots = {gs.stem(w) for w in ["დედა", "დედამ", "დედას", "დედები", "დედებში"]}
+        self.assertEqual(len(roots), 1)
+
+    def test_distinct_words_stay_distinct(self):
+        self.assertNotEqual(gs.stem("დედა"), gs.stem("დედალი"))   # mother vs hen
+
+    def test_min_stem_guard(self):
+        self.assertEqual(gs.stem("ცა"), "ცა")     # too short to strip
 
 
 class ConfigHash(unittest.TestCase):

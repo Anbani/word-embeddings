@@ -41,7 +41,7 @@ def load_sentences(corpus):
 
 
 def load_vocab(corpus):
-    rows = list(lib.read_jsonl(lib.path("work", corpus, "vocab.jsonl")))
+    rows = list(lib.read_jsonl(lib.vocab_file(corpus)))   # collapsed if present
     rows.sort(key=lambda r: r["i"])          # enforce index order
     return rows
 

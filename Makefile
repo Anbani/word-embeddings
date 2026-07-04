@@ -34,6 +34,13 @@ corpus:
 vocab:
 	$(PYTHON) src/build_vocab.py --corpus $(CORPUS)
 
+## collapse: merge inflectional variants to one root per point (frozen vocab).
+## Runs BEFORE embed for a fresh model; for an already-embedded run pass VECTORS
+## to subselect existing vectors (no re-embed):
+##   make collapse CORPUS=kawiki VECTORS=work/kawiki-eg/vectors.f32.npy
+collapse:
+	$(PYTHON) src/collapse_vocab.py --corpus $(CORPUS) $(if $(VECTORS),--vectors $(VECTORS),)
+
 ## embed: model forward passes -> work/<DS>/vectors.f32.npy  (needs GPU)
 embed:
 	$(PYTHON) src/embed_contextual.py --config $(DS)
@@ -48,7 +55,7 @@ reduce:
 dist:
 	$(PYTHON) src/build_dist.py --config $(DS)
 
-stage1: corpus vocab embed
+stage1: corpus vocab collapse embed
 stage2: reduce dist
 
 # ---- stage 3 (CPU, the gate) ------------------------------------------------

@@ -16,6 +16,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import lib  # noqa: E402
+import georgian_stem as gs  # noqa: E402
 from vendor import normalize as norm  # noqa: E402
 
 SIZE_BUDGET_MB = 30
@@ -121,23 +122,33 @@ def check_dataset(ds, blocklist):
 
 
 def run_probes(probes, datasets):
-    """datasets: {corpus: [(ds, words, nidx, k), ...]}"""
+    """datasets: {corpus: [(ds, words, nidx, k), ...]}.
+
+    Matching is on Georgian ROOTS (georgian_stem), not surface forms: vocab
+    labels are dominant surface forms (often oblique cases), so exact-string
+    matching against citation-form probes massively under-counts. Stem-matching
+    tests semantic proximity fairly.
+    """
     for corpus, groups in probes.items():
         if corpus in ("v", "note", "thresholds"):
             continue
         thr = probes.get("thresholds", {}).get(corpus, {}).get("hit_rate", 0.70)
         for ds, words, nidx, k in datasets.get(corpus, []):
-            index = {w: i for i, w in enumerate(words)}
+            stems = [gs.stem(w) for w in words]
+            by_stem = {}
+            for i, st in enumerate(stems):
+                by_stem.setdefault(st, i)
             present = hits = forbidden = 0
             for probe in groups:
-                w = probe["word"]
-                if w not in index:
+                qs = gs.stem(probe["word"])
+                if qs not in by_stem:
                     continue
                 present += 1
-                nb = {words[nidx[index[w]][j]] for j in range(k)}
-                if set(probe.get("expected", [])) & nb:
+                i = by_stem[qs]
+                nb = {stems[nidx[i][j]] for j in range(k)}
+                if {gs.stem(e) for e in probe.get("expected", [])} & nb:
                     hits += 1
-                if set(probe.get("forbidden", [])) & nb:
+                if {gs.stem(e) for e in probe.get("forbidden", [])} & nb:
                     forbidden += 1
             rate = hits / present if present else 0.0
             lib.log(f"  [{ds}] probes: {hits}/{present} hit ({rate:.0%}), forbidden={forbidden}")

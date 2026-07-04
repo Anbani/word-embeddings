@@ -111,3 +111,9 @@ def work_dir(cfg):
     d = path("work", cfg["id"])
     os.makedirs(d, exist_ok=True)
     return d
+
+
+def vocab_file(corpus):
+    """The frozen collapsed vocab if collapse_vocab has run, else the raw vocab."""
+    c = path("work", corpus, "vocab.collapsed.jsonl")
+    return c if os.path.exists(c) else path("work", corpus, "vocab.jsonl")
