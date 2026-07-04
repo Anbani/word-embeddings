@@ -1,0 +1,40 @@
+[
+  {
+    "id": "kawiki-eg",
+    "corpus": "kawiki",
+    "model": "EmbeddingGemma-300m",
+    "name_ka": "ემბედინგ-ჯემა",
+    "name_en": "EmbeddingGemma-300m",
+    "count": 18871,
+    "dims_full": 768,
+    "dims_i8": 128,
+    "aligned_group": "kawiki",
+    "reference": true,
+    "files": {
+      "labels.tsv": 567729,
+      "points.f32": 150968,
+      "neighbors.bin": 849195,
+      "vectors.i8": 2415488,
+      "vscales.f32": 75484
+    }
+  },
+  {
+    "id": "vef-eg",
+    "corpus": "vef",
+    "model": "The Knight in the Panther's Skin",
+    "name_ka": "ვეფხისტყაოსანი",
+    "name_en": "The Knight in the Panther's Skin",
+    "count": 1725,
+    "dims_full": 768,
+    "dims_i8": 128,
+    "aligned_group": null,
+    "reference": false,
+    "files": {
+      "labels.tsv": 37995,
+      "points.f32": 13800,
+      "neighbors.bin": 77625,
+      "vectors.i8": 220800,
+      "vscales.f32": 6900
+    }
+  }
+]

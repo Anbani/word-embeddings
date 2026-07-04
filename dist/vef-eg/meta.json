@@ -1,0 +1,40 @@
+{
+  "v": 2,
+  "id": "vef-eg",
+  "corpus": "vef",
+  "model": {
+    "id": "google/embeddinggemma-300m",
+    "revision": "57c266a740f537b4dc058e1b0cda161fd15afa75"
+  },
+  "name_ka": "ვეფხისტყაოსანი",
+  "name_en": "The Knight in the Panther's Skin",
+  "prompt": "title: none | text: {text}",
+  "layer": "last",
+  "N": 64,
+  "per_article_cap": 64,
+  "window_tokens": 96,
+  "seeds": {
+    "sample": 20260704,
+    "umap": 20260704
+  },
+  "dim128_method": "mrl",
+  "umap": {
+    "n_neighbors": 30,
+    "min_dist": 0.08,
+    "n_components": 2,
+    "metric": "cosine",
+    "seed": 20260704
+  },
+  "vocab_hash": "5e05fc9ed26f3c73affed5dd1aa8dedb9d6ec04aae0265b274c80aa7cd1bbde7",
+  "config_hash": "81ba0a4ccf3db1a3fc0e928e5a14174c836270452fd6b60f8ec7ca2c4b7874bc",
+  "count": 1725,
+  "dims_full": 768,
+  "dims_i8": 128,
+  "aligned_group": null,
+  "reference": false,
+  "displacement": {
+    "median": 0.0,
+    "p95": 0.0
+  },
+  "generated_at": "2026-07-04T15:39:57Z"
+}

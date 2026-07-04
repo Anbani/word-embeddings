@@ -1,0 +1,40 @@
+{
+  "v": 2,
+  "id": "kawiki-eg",
+  "corpus": "kawiki",
+  "model": {
+    "id": "google/embeddinggemma-300m",
+    "revision": "57c266a740f537b4dc058e1b0cda161fd15afa75"
+  },
+  "name_ka": "ემბედინგ-ჯემა",
+  "name_en": "EmbeddingGemma-300m",
+  "prompt": "title: none | text: {text}",
+  "layer": "last",
+  "N": 64,
+  "per_article_cap": 2,
+  "window_tokens": 96,
+  "seeds": {
+    "sample": 20260704,
+    "umap": 20260704
+  },
+  "dim128_method": "mrl",
+  "umap": {
+    "n_neighbors": 30,
+    "min_dist": 0.08,
+    "n_components": 2,
+    "metric": "cosine",
+    "seed": 20260704
+  },
+  "vocab_hash": "52c0f36d22a30a2cbf76e814b2cce7b2b97746288fda1d03820ce167e9d150ff",
+  "config_hash": "2d6c894da76df42fd7cef9da126815348ce4a45d554272645ab0baad98ab43fc",
+  "count": 18871,
+  "dims_full": 768,
+  "dims_i8": 128,
+  "aligned_group": "kawiki",
+  "reference": true,
+  "displacement": {
+    "median": 0.0,
+    "p95": 0.0
+  },
+  "generated_at": "2026-07-04T15:39:39Z"
+}
