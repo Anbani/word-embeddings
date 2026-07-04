@@ -18,6 +18,7 @@ dist/
     neighbors.bin
     vectors.i8
     vscales.f32
+    emoji.json                # optional emoji layer (kawiki only)
   vef-eg/ …
   kawiki-g4e4b/ …            # added in the next pass
   kawiki-g4-12b/ …
@@ -80,6 +81,29 @@ index is a convenience catalog for the loader.
 
 - **`vscales.f32`** — `count` float32, per-row dequant `scale` aligned to
   `vectors.i8` rows.
+
+- **`emoji.json`** *(optional, `src/embed_emoji.py`)* — the emoji set projected
+  into this dataset's layout. Emitted only where the vocab covers the emoji
+  keyword space (kawiki ~97 %; NOT the archaic vef poem). Flagged by
+  `has_emoji: true` on the `index.json` entry.
+
+  ```json
+  {
+    "v": 1, "ds": "kawiki-eg", "method": "keywords", "count": 1822,
+    "emoji": ["😀", …],                 // count glyph strings (may be multi-codepoint)
+    "x": [0.30, …], "y": [0.00, …],     // count floats, in [-1,1]^2 (aligned to points.f32)
+    "kw": [["ღიმილი","გახარებული","ბედნიერი"], …],  // top-3 ka keywords, for the tooltip
+    "nn": [[[wordIdx, weight], …≤15], …]            // neighbour WORDS = matched keywords, weight desc
+  }
+  ```
+
+  Placement (`method: "keywords"`): each emoji's curated Georgian keywords are
+  looked up in the vocab; position = rank-weighted (`0.65^rank`) blend of the
+  matched words' `points`, with a small deterministic jitter to de-stack emoji
+  that collapse onto the same word. Neighbours are those matched keyword words
+  (clean by construction) — **not** cosine-nearest words, which the orthographic
+  signal in EmbeddingGemma would poison. Needs no model/GPU; runs in the CPU
+  build image. `nn[j] = [wordIdx, weight]`; `wordIdx` indexes `labels.tsv`.
 
 ## Reader (JS)
 

@@ -15,8 +15,10 @@
       "points.f32": 147208,
       "neighbors.bin": 828045,
       "vectors.i8": 2355328,
-      "vscales.f32": 73604
-    }
+      "vscales.f32": 73604,
+      "emoji.json": 293017
+    },
+    "has_emoji": true
   },
   {
     "id": "vef-eg",
