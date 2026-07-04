@@ -6,12 +6,12 @@ name_ka: "ჯემა 4 E4B"
 name_en: "Gemma 4 E4B"
 
 model:
-  id: google/gemma-4-e4b    # ⚠ confirm the exact HF repo id + pin a revision (landmine #15)
-  revision: main
+  id: google/gemma-4-E4B    # base (not -it); multimodal Gemma4ForConditionalGeneration
+  revision: a24c9379fd3839ae84e97f0b6aa3152fce9bd033   # pinned (landmine #15)
   kind: decoder             # causal LM — take hidden states, NOT the last layer
-  dtype: bfloat16
+  dtype: bfloat16           # fits 24GB natively
   quantization: none
-  d_model: null             # ⚠ read from model config at runtime — do not hardcode
+  d_model: null             # read from config.text_config.hidden_size at runtime (2560)
 
 embed:
   # ⚠ Never the last decoder layer. Ablate {0.5, 0.65, 0.8} on a 2K-word subsample

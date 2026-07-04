@@ -86,8 +86,13 @@ def load_model(model_cfg):
         model = AutoModel.from_pretrained(mid, **kwargs)
         model = model.to("cuda" if torch.cuda.is_available() else "cpu")
     model.eval()
-    d_model = model.config.hidden_size
-    n_layers = getattr(model.config, "num_hidden_layers", None)
+
+    # Multimodal Gemma-4 (Gemma4ForConditionalGeneration) has model_type gemma4 /
+    # gemma4_unified with dims in config.text_config, not the top-level config.
+    cfg = model.config
+    tc = getattr(cfg, "text_config", None)
+    d_model = getattr(cfg, "hidden_size", None) or (getattr(tc, "hidden_size", None) if tc else None)
+    n_layers = getattr(cfg, "num_hidden_layers", None) or (getattr(tc, "num_hidden_layers", None) if tc else None)
     return tok, model, d_model, n_layers
 
 
@@ -202,11 +207,16 @@ def main():
     ap = argparse.ArgumentParser(description="Contextual word vectors (GPU)")
     ap.add_argument("--config", required=True, help="dataset id, e.g. kawiki-eg")
     ap.add_argument("--limit", type=int, default=None, help="process only first K lemmas (smoke/ablation)")
+    ap.add_argument("--layer-frac", type=float, default=None, help="override embed.layer_frac (ablation)")
+    ap.add_argument("--outfile", default=None, help="write vectors here instead of the checkpointed default")
     args = ap.parse_args()
 
     cfg = lib.load_config(args.config)
     corpus = cfg["corpus"]
-    embed_cfg = cfg["embed"]
+    embed_cfg = dict(cfg["embed"])
+    if args.layer_frac is not None:
+        embed_cfg["layer_frac"] = args.layer_frac
+        embed_cfg["layer"] = "frac"   # force the hidden-layer path, not last
     N = embed_cfg.get("N", 64)
     cap = embed_cfg.get("per_article_cap", 2)
     window_tokens = embed_cfg.get("window_tokens", 96)
@@ -225,6 +235,22 @@ def main():
     tok, model, d_model, n_layers = load_model(cfg["model"])
     layer_idx = pick_layer_index(embed_cfg, n_layers)
     lib.log(f"d_model={d_model} n_layers={n_layers} layer_idx={layer_idx} count={count}")
+
+    # ablation / smoke: write to a custom file, no checkpoint machinery
+    if args.outfile:
+        vectors = np.zeros((count, d_model), dtype=np.float32)
+        for i in range(count):
+            rng = random.Random(base_seed ^ (i * 2654435761 & 0xFFFFFFFF))
+            samples = sample_occurrences(vocab[i]["occ"], sentences, N, cap, rng)
+            v = embed_lemma(tok, model, layer_idx, template, samples, sentences,
+                            window_tokens, batch_size, d_model)
+            if v is not None:
+                vectors[i] = v
+            if (i + 1) % 500 == 0:
+                lib.log(f"  [{cfg['id']} L{embed_cfg.get('layer_frac')}] {i + 1}/{count}")
+        np.save(args.outfile, vectors)
+        lib.log(f"[{cfg['id']}] ablation done -> {args.outfile} ({count}×{d_model})")
+        return
 
     vectors, done = load_checkpoint(cfg["id"], count, d_model)
 

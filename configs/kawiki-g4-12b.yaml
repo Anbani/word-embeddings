@@ -7,12 +7,12 @@ name_ka: "ჯემა 4 12B"
 name_en: "Gemma 4 12B"
 
 model:
-  id: google/gemma-4-12b     # ⚠ confirm exact HF repo id + pin a revision (landmine #15)
-  revision: main
+  id: google/gemma-4-12B     # base; gemma4_unified multimodal, hidden 3840 / 48 layers
+  revision: 56820d7d8cbe8e47975a53325439ed272e91cff2   # pinned (landmine #15)
   kind: decoder
   dtype: bfloat16            # compute dtype; weights load NF4 per quantization below
   quantization: nf4          # bitsandbytes 4-bit; hidden states still cast to fp32
-  d_model: null              # read from model config at runtime
+  d_model: null              # read from config.text_config.hidden_size at runtime
 
 embed:
   layer_frac: 0.65           # ablate {0.5,0.65,0.8} first, then lock (landmine #8)
