@@ -1,0 +1,29 @@
+# Hard vocab blocklist — one lemma/form per line, '#' comments ignored.
+# These are wiki-namespace / markup tokens that polluted the legacy v1 page
+# (its top tokens were კატეგორია, თარგი…). Tokens with Latin/digits/punct and
+# single letters are dropped programmatically in build_vocab.py — do NOT list
+# those here. This file is for Georgian words that are structurally junk.
+# Extend during the top-500 vocab QA (SDD §3).
+
+კატეგორია
+კატეგორიები
+თარგი
+თარგები
+ფაილი
+ფაილები
+ვიკიპედია
+ვიკიწიგნები
+ვიკიციტატა
+ვიკილექსიკონი
+ვიკისაწყობი
+მედიავიკი
+სპეციალური
+გამოსახულება
+სქოლიო
+სქოლიოები
+რესურსები
+გადამისამართება
+დისკუსია
+მომხმარებელი
+შაბლონი
+ინფოდაფა

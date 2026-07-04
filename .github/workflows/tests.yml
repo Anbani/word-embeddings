@@ -1,0 +1,47 @@
+name: tests
+
+# The gate. Pure-CPU, no torch/GPU. Runs on push/PR:
+#   unit     — stdlib logic on the 3.11/3.12 matrix (+ py_compile of every script)
+#   validate — evaluate.py against the committed dist (schema, vocab_hash, probes,
+#              size budget). Stdlib-only; skips cleanly if dist/ is absent.
+#   reader   — JS reader parses the committed dist (skips if absent)
+on:
+  push:
+  pull_request:
+
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Compile all pipeline scripts (syntax gate; no deps needed)
+        run: python -m py_compile src/*.py src/vendor/*.py
+      - name: Unit tests (stdlib; numpy tests skip)
+        run: python -m unittest discover -s tests -v
+
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate committed dist (evaluate.py gate; skips if none)
+        run: python src/evaluate.py
+
+  reader:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: JS reader test (against committed dist)
+        run: node --test tests/reader.test.mjs

@@ -1,0 +1,18 @@
+# ვეფხისტყაოსანი corpus — its own vocab (raw forms, no lemmatization; archaic
+# morphology defeats the modern affix rules). Text is already in-repo.
+name: vef
+
+# Full poem text, one verse line per row: id,line,chapter,chapter_id,strophe_id,line_id
+source: src/data/rustaveli/raw/vef.csv
+
+extract:
+  # Each 4-line stanza (grouped by strophe_id) is treated as one context sentence.
+  group_by: strophe_id
+  min_georgian_ratio: 0.60
+
+vocab:
+  min_freq: 3               # raw surface forms with freq >= 3 (expect ~6-12K)
+  min_occ: 8
+  target_size: 65535        # own index space; keep <= u16 ceiling
+  blocklist: src/data/vocab_blocklist.txt
+  # no aff / lemma_sources: vef uses raw forms

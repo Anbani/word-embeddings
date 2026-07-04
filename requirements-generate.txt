@@ -1,0 +1,15 @@
+# Stage-1 (heavy, GPU) deps. torch/torchvision ship in the CUDA base image
+# (Dockerfile.generate) — do NOT list them here, matching the homoglyph pattern.
+transformers>=4.44
+sentence-transformers>=3.0
+accelerate>=0.33
+bitsandbytes>=0.43        # 4-bit NF4 load for Gemma 4 12B on the 3090 (later pass)
+libzim>=3.5               # python-libzim: read the kawiki ZIM (bundled libzim, no apt)
+selectolax>=0.3           # fast HTML -> text
+sentencepiece>=0.2
+numpy>=1.26
+scipy>=1.11               # Procrustes alignment (also used by stage 2)
+umap-learn>=0.5           # 2D layout (stage 2 can run on the node right after embed)
+scikit-learn>=1.4         # PCA->128 for Gemma 4 (later pass)
+pyyaml>=6.0
+tqdm>=4.66

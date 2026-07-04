@@ -1,0 +1,33 @@
+name: generate
+
+# Stage 1 (corpus -> vocab -> embed) is HEAVY and GPU-bound: it runs in Docker on
+# the Tailscale RTX 3090 node ("exce"), NOT in GitHub CI (no GPU, and the kawiki
+# ZIM lives on the node). GitHub can't run it — this workflow exists for parity
+# and to (a) syntax-check the stage-1 scripts and (b) print the node runbook.
+#
+# The real run:
+#   make gpu-stage1 DS=kawiki-eg CORPUS=kawiki      # detached; make gpu-logs to follow
+#   make gpu-stage2 DS=kawiki-eg                     # reduce + dist on the node
+#   make gpu-fetch  DS=kawiki-eg                      # pull dist/ back to the Mac
+#   git add -f dist/ && git commit && git push        # tests.yml then validates it
+on:
+  workflow_dispatch:
+
+jobs:
+  runbook:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Syntax-check stage-1 scripts
+        run: python -m py_compile src/extract_corpus.py src/build_vocab.py src/embed_contextual.py
+      - name: Print node runbook
+        run: |
+          echo "Stage 1 runs on the GPU node, not here. Runbook:"
+          echo "  make gpu-stage1 DS=kawiki-eg CORPUS=kawiki"
+          echo "  make gpu-logs"
+          echo "  make gpu-stage2 DS=kawiki-eg"
+          echo "  make gpu-fetch  DS=kawiki-eg"
+          echo "  git add -f dist/ && git commit -m 'generate: kawiki-eg dist' && git push"

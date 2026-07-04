@@ -1,0 +1,40 @@
+# Flagship dataset + morph reference layout. EmbeddingGemma-300m contextual
+# word vectors over the kawiki corpus/vocab.
+id: kawiki-eg
+corpus: kawiki
+name_ka: "ემბედინგ-ჯემა"
+name_en: "EmbeddingGemma-300m"
+
+model:
+  id: google/embeddinggemma-300m
+  revision: main            # ⚠ pin to a concrete commit sha before the real run (landmine #15)
+  kind: encoder             # bidirectional embedding model; take the final hidden state
+  dtype: bfloat16
+  quantization: none
+  d_model: 768
+
+embed:
+  layer: last               # EmbeddingGemma is an encoder — final layer is the representation
+  N: 64                     # sampled occurrence sentences per lemma
+  per_article_cap: 2        # <=2 sentences from any one article (avoid topical capture)
+  window_tokens: 96         # truncate each sentence to <=96 tokens around the target
+  seed: 20260704            # occurrence-sampling RNG seed
+  batch_size: 64
+  # ⚠ EmbeddingGemma is prompt-conditioned. Documented document template, recorded
+  # verbatim in meta.json.prompt; the browser live-query path must reproduce it
+  # BYTE-for-byte (landmine #2). Target offsets are computed AFTER this is prepended.
+  prompt_template: "title: none | text: {text}"
+
+reduce:
+  dim128_method: mrl        # ⚠ Matryoshka truncation valid ONLY for EmbeddingGemma (landmine #3)
+  umap:
+    n_neighbors: 30
+    min_dist: 0.08
+    n_components: 2
+    metric: cosine
+    seed: 20260704
+  aligned_group: kawiki     # morph group; all kawiki datasets align to `reference`
+  reference: kawiki-eg      # this dataset IS the reference layout
+
+neighbors:
+  k: 15                     # top-15 exact cosine neighbors, full-dim

@@ -31,3 +31,24 @@
 !vef.csv
 !analogies*
 !related*
+
+# ─── v2 pipeline ────────────────────────────────────────────────────────────
+# Stage-1 heavy artifacts (sentences.jsonl, vectors.f32.npy, checkpoints) live
+# on the GPU node under work/, never committed (SDD landmine #19).
+work/
+
+# The shipped dataset IS committed. The block-all-then-allow scheme above hides
+# dist/*.json + dist/*.tsv, so force them back in (mirrors homoglyph's git add -f).
+!dist/
+!dist/**
+
+# Curated inputs that must ship even though their extension is blocked above.
+!eval/
+!eval/**
+!configs/
+!configs/**
+!requirements*.txt
+!src/data/vocab_blocklist.txt
+!src/data/ext/*.aff
+!src/data/ext/*.dic
+!src/data/ext/dlab_georgian_lemmas.csv

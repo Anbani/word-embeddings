@@ -1,0 +1,26 @@
+# Stage-1 (heavy) image for the Tailscale RTX 3090 node "exce". CUDA-enabled
+# torch base so embed_contextual.py runs EmbeddingGemma / Gemma 4 forward passes
+# on the GPU. Build + run ONLY via `make gpu-stage1` — nothing is ever installed
+# on that host directly (Docker-only there; org rule).
+#
+#   docker build -f docker/Dockerfile.generate -t anbani-we-generate .
+#   docker run --rm --gpus all -v "$PWD":/work -w /work \
+#       -e HF_TOKEN -v "$HOME/.hfcache":/root/.cache/huggingface \
+#       anbani-we-generate make corpus vocab embed DS=kawiki-eg CORPUS=kawiki
+FROM pytorch/pytorch:2.5.1-cuda12.4-cudnn9-runtime
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        build-essential pkg-config curl ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV PYTHONUTF8=1 \
+    PYTHONHASHSEED=0 \
+    HF_HOME=/root/.cache/huggingface \
+    TOKENIZERS_PARALLELISM=false
+
+# torch ships in the base image (CUDA build) — do NOT reinstall it.
+COPY requirements-generate.txt /tmp/req.txt
+RUN pip install --no-cache-dir -r /tmp/req.txt
+
+WORKDIR /work
+CMD ["make", "corpus", "vocab", "embed"]

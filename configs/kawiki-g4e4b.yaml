@@ -1,0 +1,39 @@
+# Gemma 4 E4B contextual word vectors (comparison model). NEXT PASS — not built
+# in the cheap-first run. Fits the 3090 in bf16.
+id: kawiki-g4e4b
+corpus: kawiki
+name_ka: "ჯემა 4 E4B"
+name_en: "Gemma 4 E4B"
+
+model:
+  id: google/gemma-4-e4b    # ⚠ confirm the exact HF repo id + pin a revision (landmine #15)
+  revision: main
+  kind: decoder             # causal LM — take hidden states, NOT the last layer
+  dtype: bfloat16
+  quantization: none
+  d_model: null             # ⚠ read from model config at runtime — do not hardcode
+
+embed:
+  # ⚠ Never the last decoder layer. Ablate {0.5, 0.65, 0.8} on a 2K-word subsample
+  # first (make embed ... WE_ABLATE=1), lock the winner here (landmine #8).
+  layer_frac: 0.65
+  N: 64
+  per_article_cap: 2
+  window_tokens: 96
+  seed: 20260704
+  batch_size: 32
+  prompt_template: "{text}"  # decoder: no embedding prompt template
+
+reduce:
+  dim128_method: pca         # ⚠ PCA->128, NOT MRL, for Gemma 4 hidden states (landmine #3)
+  umap:
+    n_neighbors: 30
+    min_dist: 0.08
+    n_components: 2
+    metric: cosine
+    seed: 20260704
+  aligned_group: kawiki      # ⚠ init=<kawiki-eg coords> + Procrustes snap (landmine #4)
+  reference: kawiki-eg
+
+neighbors:
+  k: 15

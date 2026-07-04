@@ -1,0 +1,25 @@
+# kawiki corpus — shared by kawiki-eg / kawiki-g4e4b / kawiki-g4-12b.
+# Extraction + vocab are done ONCE per corpus; the vocab index order is frozen
+# here and reused verbatim by every kawiki dataset (SDD §3, landmine #5).
+name: kawiki
+
+# ZIM filename, resolved under $WE_ZIM_DIR (mounted read-only at /zim on the node).
+# Never re-downloaded (SDD §2).
+zim: wikipedia_ka_all_nopic_2026-04.zim
+
+extract:
+  min_words: 4
+  max_words: 60
+  min_georgian_ratio: 0.60
+  # Abbreviations that must NOT end a sentence (no capitalization cue in Georgian).
+  abbrev_blocklist: ["წ.", "ე.წ.", "ა.შ.", "სთ.", "გვ.", "მაგ.", "ე.ი.", "ლათ.", "ბერძ.", "დაახლ.", "ს.", "თ.", "ნ.", "მ."]
+
+vocab:
+  target_size: 30000        # hard cut; MUST stay <= 65535 for u16 neighbor indices
+  min_occ: 8                # drop lemmas with <8 occurrences BEFORE the cut
+  aff: src/data/ext/ka_GE.aff
+  # Lemma pool = union of these (col 0 for CSV, stem for .dic). Missing files skipped.
+  lemma_sources:
+    - src/data/ext/ka_GE.dic
+    - src/data/ext/dlab_georgian_lemmas.csv
+  blocklist: src/data/vocab_blocklist.txt

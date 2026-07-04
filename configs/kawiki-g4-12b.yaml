@@ -1,0 +1,39 @@
+# Gemma 4 12B contextual word vectors (smartest map). NEXT PASS — not built in
+# the cheap-first run. ⚠ Does NOT fit bf16 on the 3090: load 4-bit NF4. Check
+# free VRAM first — the node had ~10GB in use (landmines #9, #1 §1).
+id: kawiki-g4-12b
+corpus: kawiki
+name_ka: "ჯემა 4 12B"
+name_en: "Gemma 4 12B"
+
+model:
+  id: google/gemma-4-12b     # ⚠ confirm exact HF repo id + pin a revision (landmine #15)
+  revision: main
+  kind: decoder
+  dtype: bfloat16            # compute dtype; weights load NF4 per quantization below
+  quantization: nf4          # bitsandbytes 4-bit; hidden states still cast to fp32
+  d_model: null              # read from model config at runtime
+
+embed:
+  layer_frac: 0.65           # ablate {0.5,0.65,0.8} first, then lock (landmine #8)
+  N: 64
+  per_article_cap: 2
+  window_tokens: 96
+  seed: 20260704
+  batch_size: 16             # smaller batch under 4-bit + 12B
+  checkpoint_every: 2000     # resume by lemma-id range on OOM/preemption
+  prompt_template: "{text}"
+
+reduce:
+  dim128_method: pca
+  umap:
+    n_neighbors: 30
+    min_dist: 0.08
+    n_components: 2
+    metric: cosine
+    seed: 20260704
+  aligned_group: kawiki
+  reference: kawiki-eg
+
+neighbors:
+  k: 15

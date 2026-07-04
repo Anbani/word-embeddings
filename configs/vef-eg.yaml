@@ -1,0 +1,37 @@
+# ვეფხისტყაოსანი through EmbeddingGemma-300m. Own vocab + independent layout
+# (NOT aligned to kawiki — archaic vocabulary, no morph).
+id: vef-eg
+corpus: vef
+name_ka: "ვეფხისტყაოსანი"
+name_en: "The Knight in the Panther's Skin"
+
+model:
+  id: google/embeddinggemma-300m
+  revision: main            # ⚠ pin before the real run (landmine #15)
+  kind: encoder
+  dtype: bfloat16
+  quantization: none
+  d_model: 768
+
+embed:
+  layer: last
+  N: 64
+  per_article_cap: 64       # "article" = stanza; effectively no cap for the poem
+  window_tokens: 96
+  seed: 20260704
+  batch_size: 64
+  prompt_template: "title: none | text: {text}"
+
+reduce:
+  dim128_method: mrl
+  umap:
+    n_neighbors: 30
+    min_dist: 0.08
+    n_components: 2
+    metric: cosine
+    seed: 20260704
+  aligned_group: null       # independent — own bounding box, no alignment
+  reference: null
+
+neighbors:
+  k: 15

@@ -1,0 +1,20 @@
+# Stage 2+3 (CPU) image: reduce_layout + build_dist + evaluate, no torch.
+# Runs on the node right after embed (the raw f32 vectors are large and live in
+# work/ there), or locally for a dist rebuild from a rsync'd work/ backup.
+#
+#   docker build -f docker/Dockerfile.build -t anbani-we-build .
+#   docker run --rm -v "$PWD":/work -w /work anbani-we-build make reduce dist DS=kawiki-eg
+FROM python:3.12-slim
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV PYTHONUTF8=1 \
+    PYTHONHASHSEED=0
+
+COPY requirements.txt /tmp/req.txt
+RUN pip install --no-cache-dir -r /tmp/req.txt
+
+WORKDIR /work
+CMD ["make", "reduce", "dist"]
