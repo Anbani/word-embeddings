@@ -11,8 +11,9 @@ extract:
   min_georgian_ratio: 0.60
 
 vocab:
-  min_freq: 3               # raw surface forms with freq >= 3 (expect ~6-12K)
-  min_occ: 8
+  min_freq: 3               # raw surface forms with freq >= 3 (small corpus)
+  min_occ: 3                # tiny poem: don't over-prune (accept noisier vectors)
   target_size: 65535        # own index space; keep <= u16 ceiling
   blocklist: src/data/vocab_blocklist.txt
-  # no aff / lemma_sources: vef uses raw forms
+  stopwords: src/data/stopwords_ka.txt
+  # no aff / lemma_sources: vef uses raw surface forms (archaic morphology)

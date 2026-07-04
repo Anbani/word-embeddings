@@ -23,6 +23,7 @@ import random
 import re
 import sys
 import time
+from collections import Counter
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import lib  # noqa: E402
@@ -34,19 +35,19 @@ SEED = 20260704        # reservoir RNG seed (determinism)
 TOKEN_RE = re.compile(rf"[{lib.GE}]+")
 
 
-def load_blocklist(cfg_vocab):
-    p = cfg_vocab.get("blocklist")
-    if not p:
-        return set()
-    p = lib.path(p)
-    if not os.path.exists(p):
-        return set()
+def _read_wordfile(p):
     out = set()
-    for line in open(p, encoding="utf-8"):
-        line = line.strip()
-        if line and not line.startswith("#"):
-            out.add(norm.fold(line))
+    if p and os.path.exists(lib.path(p)):
+        for line in open(lib.path(p), encoding="utf-8"):
+            line = line.strip()
+            if line and not line.startswith("#"):
+                out.add(norm.fold(line))
     return out
+
+
+def load_blocklist(cfg_vocab):
+    """Wiki-markup blocklist ∪ Georgian stopwords (both filtered from the vocab)."""
+    return _read_wordfile(cfg_vocab.get("blocklist")) | _read_wordfile(cfg_vocab.get("stopwords"))
 
 
 # --------------------------------------------------------------------------- form->lemma
@@ -149,30 +150,38 @@ def select_and_write(cfg, freq, occ):
     min_freq = v.get("min_freq", min_occ)
     target = v.get("target_size", 30000)
 
-    cands = [
-        (w, f) for w, f in freq.items()
-        if f >= max(min_occ, min_freq)
-        and w not in blocklist
-        and norm.is_word(w) and len(w) >= 2
-    ]
-    # freeze order: frequency desc, then lexicographic for determinism
-    cands.sort(key=lambda wf: (-wf[1], wf[0]))
+    thr = max(min_occ, min_freq)
+    # Each candidate is relabeled with its DOMINANT SURFACE FORM (most common form
+    # among sampled occurrences) so the display label is a real word, not a bare
+    # Hunspell stem (იყ→იყო, რომლი→რომელი). The stem is kept as `lemma`.
+    cands = []
+    for stem, f in freq.items():
+        if f < thr or stem in blocklist or not norm.is_word(stem) or len(stem) < 2:
+            continue
+        o = occ.get(stem, [])
+        dom = Counter(form for _, form in o).most_common(1)
+        label = dom[0][0] if dom else stem
+        if label in blocklist or not norm.is_word(label) or len(label) < 2:
+            continue
+        cands.append((label, stem, f, o))
+    # freeze order: frequency desc, stem tiebreak (stable regardless of relabeling)
+    cands.sort(key=lambda t: (-t[2], t[1]))
     if len(cands) > target:
         cands = cands[:target]
     if len(cands) > 65535:
         lib.log(f"ERROR: vocab {len(cands)} exceeds u16 ceiling 65535")
         sys.exit(3)
 
-    labels = [w for w, _ in cands]
+    labels = [label for label, _, _, _ in cands]
     vocab_hash = lib.sha256_text("\n".join(labels))
 
     out_dir = lib.path("work", cfg["name"])
     os.makedirs(out_dir, exist_ok=True)
     out_path = os.path.join(out_dir, "vocab.jsonl")
     with open(out_path, "w", encoding="utf-8") as fout:
-        for i, (w, f) in enumerate(cands):
+        for i, (label, stem, f, o) in enumerate(cands):
             fout.write(json.dumps(
-                {"i": i, "word": w, "freq": f, "occ": occ.get(w, [])},
+                {"i": i, "word": label, "lemma": stem, "freq": f, "occ": o},
                 ensure_ascii=False) + "\n")
 
     meta = {
@@ -190,8 +199,9 @@ def select_and_write(cfg, freq, occ):
     lib.log(f"vocab: {len(labels)} entries -> {out_path}")
     lib.log(f"vocab_hash: {vocab_hash}")
     lib.log("top 40 by frequency (QA — eyeball for wiki-markup / junk):")
-    for w, f in cands[:40]:
-        lib.log(f"  {f:>8}  {w}")
+    for label, stem, f, _ in cands[:40]:
+        tag = "" if label == stem else f"  (stem: {stem})"
+        lib.log(f"  {f:>8}  {label}{tag}")
 
 
 # --------------------------------------------------------------------------- main

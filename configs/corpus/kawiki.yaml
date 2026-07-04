@@ -23,3 +23,4 @@ vocab:
     - src/data/ext/ka_GE.dic
     - src/data/ext/dlab_georgian_lemmas.csv
   blocklist: src/data/vocab_blocklist.txt
+  stopwords: src/data/stopwords_ka.txt

@@ -49,6 +49,7 @@ work/
 !configs/**
 !requirements*.txt
 !src/data/vocab_blocklist.txt
+!src/data/stopwords_ka.txt
 !src/data/ext/*.aff
 !src/data/ext/*.dic
 !src/data/ext/dlab_georgian_lemmas.csv

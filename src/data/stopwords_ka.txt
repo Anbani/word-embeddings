@@ -1,0 +1,141 @@
+# Georgian stopwords — high-frequency function words filtered from the semantic
+# map (conjunctions, particles, pronouns, determiners, postpositions, cop/aux).
+# Surface forms are listed; build_vocab relabels stems to their dominant surface
+# form BEFORE this filter, so listing the surface form catches the whole cluster.
+# Lexical verbs/nouns are deliberately NOT here (verbs are content in a word cloud).
+# Extend during QA. '#' comments ignored.
+
+# conjunctions / particles
+და
+რომ
+თუ
+ან
+ხოლო
+მაგრამ
+თუმცა
+ანუ
+რადგან
+ვინაიდან
+თუკი
+კი
+ხომ
+ნუ
+ვერ
+არ
+არა
+აი
+ესე
+ისე
+
+# pronouns / determiners
+მე
+შენ
+ის
+იგი
+ჩვენ
+თქვენ
+ისინი
+ეს
+ეგ
+თავი
+თავისი
+მისი
+მათი
+ჩემი
+შენი
+ჩვენი
+თქვენი
+ამ
+იმ
+ამა
+იმა
+მან
+მას
+მათ
+მის
+ამის
+იმის
+ვინ
+რა
+რომელი
+რომელიც
+ვინც
+რაც
+სხვა
+ყველა
+ყოველი
+ზოგი
+თითოეული
+ერთმანეთი
+
+# interrogatives / adverbial function words
+აქ
+იქ
+სად
+სადა
+საიდან
+როდის
+როგორ
+როგორც
+რატომ
+რამდენი
+უკვე
+ჯერ
+კიდევ
+კიდე
+ისევ
+მხოლოდ
+უფრო
+ძალიან
+ცოტა
+მეტი
+ნაკლები
+თითქმის
+სულ
+მართლა
+ალბათ
+აუცილებლად
+დაახლოებით
+
+# postpositions / relators
+შესახებ
+გამო
+მიერ
+მიმართ
+შორის
+გარდა
+გარეშე
+მიხედვით
+შედეგად
+მეშვეობით
+თანახმად
+მიუხედავად
+განმავლობაში
+ზე
+თან
+კენ
+დან
+ვით
+ვიდრე
+
+# copula / auxiliaries / modals
+არის
+იყო
+ყოფილა
+ჰქონდა
+ჰყავს
+აქვს
+ჰყავდა
+უნდა
+შეიძლება
+იქნება
+იქნა
+
+# archaic function words (appear via kawiki quotes; harmless for vef too)
+მართ
+რომე
+მუნ
+
+# garbage stems observed in QA (not real citation words)
+იი
+მა

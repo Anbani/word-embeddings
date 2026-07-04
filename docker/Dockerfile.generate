@@ -7,7 +7,10 @@
 #   docker run --rm --gpus all -v "$PWD":/work -w /work \
 #       -e HF_TOKEN -v "$HOME/.hfcache":/root/.cache/huggingface \
 #       anbani-we-generate make corpus vocab embed DS=kawiki-eg CORPUS=kawiki
-FROM pytorch/pytorch:2.5.1-cuda12.4-cudnn9-runtime
+# torch >= 2.6 required: recent transformers' Gemma3 attention masking uses
+# or_mask_function/and_mask_function which need torch 2.6+ (EmbeddingGemma is
+# a Gemma3 backbone). 2.5.1 raises at the first forward pass.
+FROM pytorch/pytorch:2.6.0-cuda12.4-cudnn9-runtime
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
         build-essential pkg-config curl ca-certificates \
