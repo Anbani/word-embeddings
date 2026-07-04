@@ -87,12 +87,21 @@ def load_model(model_cfg):
         model = model.to("cuda" if torch.cuda.is_available() else "cpu")
     model.eval()
 
-    # Multimodal Gemma-4 (Gemma4ForConditionalGeneration) has model_type gemma4 /
-    # gemma4_unified with dims in config.text_config, not the top-level config.
+    # Multimodal Gemma-4 (Gemma4Model) has dims in config.text_config and wraps
+    # a `language_model` (Gemma4TextModel) text tower. Use that tower directly for
+    # clean text hidden states and to free the vision/audio towers' VRAM.
     cfg = model.config
     tc = getattr(cfg, "text_config", None)
     d_model = getattr(cfg, "hidden_size", None) or (getattr(tc, "hidden_size", None) if tc else None)
     n_layers = getattr(cfg, "num_hidden_layers", None) or (getattr(tc, "num_hidden_layers", None) if tc else None)
+    if getattr(model, "language_model", None) is not None:
+        lm = model.language_model
+        for attr in ("vision_tower", "audio_tower", "embed_vision", "embed_audio"):
+            if getattr(model, attr, None) is not None:
+                setattr(model, attr, None)
+        model = lm
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
     return tok, model, d_model, n_layers
 
 
@@ -159,7 +168,7 @@ def embed_lemma(tok, model, layer_idx, template, occ_samples, sentences, window_
         offsets = enc.pop("offset_mapping")
         enc = {k: v.to(device) for k, v in enc.items()}
         with torch.no_grad():
-            out = model(**enc)
+            out = model(**enc, output_hidden_states=True)
         hs = out.last_hidden_state if layer_idx is None else out.hidden_states[layer_idx]
         hs = hs.float()  # cast bf16 -> fp32 BEFORE accumulation (landmine #7)
         for r, (_, cs, ce) in enumerate(chunk):
