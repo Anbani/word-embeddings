@@ -1,0 +1,31 @@
+{
+  "v": 2,
+  "id": "emoji-eg",
+  "corpus": "emoji",
+  "emoji": true,
+  "model": {
+    "id": "keyword-avg(kawiki-eg)",
+    "revision": "main"
+  },
+  "name_ka": "ემოჯი",
+  "name_en": "Emoji",
+  "count": 1822,
+  "dims_full": 128,
+  "dims_i8": 128,
+  "vocab_hash": "1420f75e9e613eb038c6bf170ef277e6f719dbbea52b28e448323d31deed5bad",
+  "aligned_group": null,
+  "reference": false,
+  "source": "kawiki-eg",
+  "umap": {
+    "n_neighbors": 30,
+    "min_dist": 0.1,
+    "n_components": 2,
+    "metric": "cosine",
+    "seed": 20260704
+  },
+  "displacement": {
+    "median": 0.0,
+    "p95": 0.0
+  },
+  "generated_at": "2026-07-04T23:04:27Z"
+}

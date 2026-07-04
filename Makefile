@@ -55,11 +55,11 @@ reduce:
 dist:
 	$(PYTHON) src/build_dist.py --config $(DS)
 
-## emoji: project the emoji set into an existing word layout -> dist/<DS>/emoji.json
-## keyword-lookup, no model/GPU (CPU build image). Only where vocab covers emoji
-## (kawiki, not the archaic vef poem).
+## emoji: build the standalone emoji dataset (own space + UMAP) from a source word
+## dataset's vectors -> dist/emoji-eg/. Keyword-lookup, no model/GPU (CPU image).
+EMOJI_SOURCE ?= kawiki-eg
 emoji:
-	$(PYTHON) src/embed_emoji.py --config $(DS)
+	$(PYTHON) src/embed_emoji.py --source $(EMOJI_SOURCE)
 
 stage1: corpus vocab collapse embed
 stage2: reduce dist

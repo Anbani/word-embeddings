@@ -1,5 +1,25 @@
 [
   {
+    "id": "emoji-eg",
+    "corpus": "emoji",
+    "model": "Emoji",
+    "name_ka": "ემოჯი",
+    "name_en": "Emoji",
+    "emoji": true,
+    "count": 1822,
+    "dims_full": 128,
+    "dims_i8": 128,
+    "aligned_group": null,
+    "reference": false,
+    "files": {
+      "labels.tsv": 22248,
+      "points.f32": 14576,
+      "neighbors.bin": 81990,
+      "vectors.i8": 233216,
+      "vscales.f32": 7288
+    }
+  },
+  {
     "id": "kawiki-eg",
     "corpus": "kawiki",
     "model": "EmbeddingGemma-300m",
@@ -15,10 +35,8 @@
       "points.f32": 147208,
       "neighbors.bin": 828045,
       "vectors.i8": 2355328,
-      "vscales.f32": 73604,
-      "emoji.json": 293017
-    },
-    "has_emoji": true
+      "vscales.f32": 73604
+    }
   },
   {
     "id": "vef-eg",
