@@ -25,9 +25,9 @@
     "metric": "cosine",
     "seed": 20260704
   },
-  "vocab_hash": "5e05fc9ed26f3c73affed5dd1aa8dedb9d6ec04aae0265b274c80aa7cd1bbde7",
+  "vocab_hash": "af1f7acf3d50a0ab3c0a2df6067934018f299081b35f3e5236c9c43486b074f2",
   "config_hash": "81ba0a4ccf3db1a3fc0e928e5a14174c836270452fd6b60f8ec7ca2c4b7874bc",
-  "count": 1725,
+  "count": 1710,
   "dims_full": 768,
   "dims_i8": 128,
   "aligned_group": null,
@@ -36,5 +36,5 @@
     "median": 0.0,
     "p95": 0.0
   },
-  "generated_at": "2026-07-04T15:39:57Z"
+  "generated_at": "2026-07-04T15:43:47Z"
 }

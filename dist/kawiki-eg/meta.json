@@ -25,9 +25,9 @@
     "metric": "cosine",
     "seed": 20260704
   },
-  "vocab_hash": "52c0f36d22a30a2cbf76e814b2cce7b2b97746288fda1d03820ce167e9d150ff",
+  "vocab_hash": "735fabf9684feeedac174490a8fdef2a838ea862f763ef6ce0ed092025a06da4",
   "config_hash": "2d6c894da76df42fd7cef9da126815348ce4a45d554272645ab0baad98ab43fc",
-  "count": 18871,
+  "count": 18401,
   "dims_full": 768,
   "dims_i8": 128,
   "aligned_group": "kawiki",
@@ -36,5 +36,5 @@
     "median": 0.0,
     "p95": 0.0
   },
-  "generated_at": "2026-07-04T15:39:39Z"
+  "generated_at": "2026-07-04T15:43:29Z"
 }

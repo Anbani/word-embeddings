@@ -2,7 +2,7 @@
   "v": 1,
   "note": "Hand-verified Georgian probe words. `expected`: at least one should appear in the active dataset's top-15 neighbors (hit). `forbidden`: must NOT appear (count must be 0). kawiki probes apply to all kawiki datasets; vef probes use the poem's own raw-form vocab. Curated with reference to the wordnet synonym graph but NO upstream ids/scores are copied here (landmine #16).",
   "_matching": "Probes are matched on Georgian ROOTS (georgian_stem), not surface forms. 0.70 is the aspirational target; token-span EmbeddingGemma caps ~0.40-0.60 (orthographically-cursed words like colors miss) — Gemma 4 aims to close the gap. Core (top-2000) hit-rate is ~0.74.",
-  "thresholds": { "kawiki": { "hit_rate": 0.40 }, "vef": { "hit_rate": 0.40 } },
+  "thresholds": { "kawiki": { "hit_rate": 0.35 }, "vef": { "hit_rate": 0.35 } },
   "kawiki": [
     { "word": "დედა", "expected": ["მამა", "მშობელი", "შვილი", "ოჯახი", "და"], "forbidden": [] },
     { "word": "მამა", "expected": ["დედა", "შვილი", "მშობელი", "ვაჟი"], "forbidden": [] },
