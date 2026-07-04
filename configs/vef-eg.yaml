@@ -7,7 +7,7 @@ name_en: "The Knight in the Panther's Skin"
 
 model:
   id: google/embeddinggemma-300m
-  revision: main            # ⚠ pin before the real run (landmine #15)
+  revision: 57c266a740f537b4dc058e1b0cda161fd15afa75   # pinned (landmine #15)
   kind: encoder
   dtype: bfloat16
   quantization: none

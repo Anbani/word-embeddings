@@ -139,3 +139,5 @@
 # garbage stems observed in QA (not real citation words)
 იი
 მა
+ში
+დე

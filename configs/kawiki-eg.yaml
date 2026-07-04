@@ -7,7 +7,7 @@ name_en: "EmbeddingGemma-300m"
 
 model:
   id: google/embeddinggemma-300m
-  revision: main            # ⚠ pin to a concrete commit sha before the real run (landmine #15)
+  revision: 57c266a740f537b4dc058e1b0cda161fd15afa75   # pinned (landmine #15)
   kind: encoder             # bidirectional embedding model; take the final hidden state
   dtype: bfloat16
   quantization: none
