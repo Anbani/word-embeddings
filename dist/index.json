@@ -39,6 +39,25 @@
     }
   },
   {
+    "id": "kawiki-g4e4b",
+    "corpus": "kawiki",
+    "model": "Gemma 4 E4B",
+    "name_ka": "ჯემა 4 E4B",
+    "name_en": "Gemma 4 E4B",
+    "count": 18401,
+    "dims_full": 2560,
+    "dims_i8": 128,
+    "aligned_group": "kawiki",
+    "reference": false,
+    "files": {
+      "labels.tsv": 554775,
+      "points.f32": 147208,
+      "neighbors.bin": 828045,
+      "vectors.i8": 2355328,
+      "vscales.f32": 73604
+    }
+  },
+  {
     "id": "vef-eg",
     "corpus": "vef",
     "model": "The Knight in the Panther's Skin",

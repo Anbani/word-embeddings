@@ -1,0 +1,40 @@
+{
+  "v": 2,
+  "id": "kawiki-g4e4b",
+  "corpus": "kawiki",
+  "model": {
+    "id": "google/gemma-4-E4B",
+    "revision": "a24c9379fd3839ae84e97f0b6aa3152fce9bd033"
+  },
+  "name_ka": "ჯემა 4 E4B",
+  "name_en": "Gemma 4 E4B",
+  "prompt": "{text}",
+  "layer": 0.65,
+  "N": 64,
+  "per_article_cap": 2,
+  "window_tokens": 96,
+  "seeds": {
+    "sample": 20260704,
+    "umap": 20260704
+  },
+  "dim128_method": "pca",
+  "umap": {
+    "n_neighbors": 30,
+    "min_dist": 0.08,
+    "n_components": 2,
+    "metric": "cosine",
+    "seed": 20260704
+  },
+  "vocab_hash": "735fabf9684feeedac174490a8fdef2a838ea862f763ef6ce0ed092025a06da4",
+  "config_hash": "d6de8f670cc951c10c61b17d079f19c572d224ea5c597180b57bb9d2536a5995",
+  "count": 18401,
+  "dims_full": 2560,
+  "dims_i8": 128,
+  "aligned_group": "kawiki",
+  "reference": false,
+  "displacement": {
+    "median": 0.30717945098876953,
+    "p95": 0.9346144795417786
+  },
+  "generated_at": "2026-07-05T08:55:03Z"
+}
